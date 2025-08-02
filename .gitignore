@@ -1,0 +1,26 @@
+# 忽略 build 目录（防止编译文件上传）
+build/
+
+# 忽略编译生成的目标文件和可执行文件
+*.o
+*.out
+*.exe
+*.a
+*.so
+
+# CMake 相关文件
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# 忽略 VSCode 和 CLion 等开发工具的配置目录
+.vscode/
+.idea/
+
+# 系统临时文件
+*.swp
+.DS_Store
+
+# 日志文件
+*.log
