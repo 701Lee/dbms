@@ -36,8 +36,6 @@ public:
 
     void unpin(frame_id_t frame_id);
 
-    void updateMinFreq();
-
     size_t Size();
 public:
     std::mutex latch_;              // 互斥锁
