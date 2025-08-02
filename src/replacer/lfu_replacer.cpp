@@ -58,8 +58,16 @@ void LFUReplacer::pin(frame_id_t frame_id){
  */
 void LFUReplacer::unpin(frame_id_t frame_id){
     std::scoped_lock lock{latch_};
-    if (pageMap.count(frame_id)) {
+    if (pageMap.find(frame_id) != pageMap.end()) {
+        auto& [freq, iter] = pageMap[frame_id];
+        freqMap[freq].erase(iter);
+        freq++;
+        freqMap[freq].push_front(frame_id);
+        pageMap[frame_id] = {freq, freqMap[freq].begin()};
         
+        if (freqMap[min_freq].empty()) {
+            min_freq++;
+        }
         return ;
     }
     if (Size() >= max_size_) {
@@ -69,10 +77,6 @@ void LFUReplacer::unpin(frame_id_t frame_id){
     pageMap[frame_id] = {1, freqMap[1].begin()};
     min_freq = 1;
     return ;
-}
-
-void LFUReplacer::updateMinFreq() {
-    
 }
 
 /**

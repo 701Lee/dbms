@@ -39,8 +39,7 @@ public:
     void updateMinFreq();
 
     size_t Size();
-
-private:
+public:
     std::mutex latch_;              // 互斥锁
     size_t max_size_;               // 最大容量,和缓冲池大小相同
     size_t min_freq;                // 页面出现次数的最小值，用于淘汰
