@@ -23,6 +23,7 @@ See the Mulan PSL v2 for more details. */
 #include "replacer/lru_replacer.h"
 #include "replacer/replacer.h"
 #include "replacer/nru_replacer.h"
+#include "replacer/lfu_replacer.h"
 
 class BufferPoolManager {
    private:
@@ -44,8 +45,10 @@ class BufferPoolManager {
             replacer_ = new LRUReplacer(pool_size_);
         else if (REPLACER_TYPE == "CLOCK")
             replacer_ = new ClockReplacer(pool_size_);
-        else {
-            replacer_ = new LRUReplacer(pool_size_);
+        else if(REPLACER_TYPE == "LFU"){
+            replacer_ = new LFUReplacer(pool_size_);
+        } else {
+
         }
         // 初始化时，所有的page都在free_list_中
         for (size_t i = 0; i < pool_size_; ++i) {

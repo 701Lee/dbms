@@ -8,6 +8,9 @@ target_link_libraries(lru_replacer_test lru_replacer gtest_main)
 add_executable(clock_replacer_test storage/clock_replacer_test.cpp)
 target_link_libraries(clock_replacer_test nru_replacer gtest_main)
 
+add_executable(lfu_replacer_test storage/lfu_replacer_test.cpp)
+target_link_libraries(lfu_replacer_test lfu_replacer gtest_main)
+
 add_executable(buffer_pool_manager_test storage/buffer_pool_manager_test.cpp)
 target_link_libraries(buffer_pool_manager_test storage gtest_main)
 
