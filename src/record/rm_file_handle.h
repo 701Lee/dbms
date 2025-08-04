@@ -81,6 +81,7 @@ class RmFileHandle {
 
     void update_record(const Rid &rid, char *buf, Context *context);
 
+    // 辅助函数
     RmPageHandle create_new_page_handle();
 
     RmPageHandle fetch_page_handle(int page_no) const;
