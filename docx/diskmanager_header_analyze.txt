@@ -1,0 +1,153 @@
+一、 #include <unistd.h>
+① lseek
+
+off_t lseek(int fd, off_t offset, int whence);
+
+核心：根据定位规则，将读写指针移动到指定的字节位置
+文件描述符中会存储当前文件的读写指针的偏移位置，进一步根据whence(偏移参考位置) 
+和 offset 调整新的读写指针的位置
+
+fd(文件描述符):通过open得到。fd中会存储当前文件中读写指针的位置
+offset(偏移量):相对于whence的字节数，可以是正数或负数
+whence(定位规则)：
+* SEEK_SET:	从文件开头开始算起
+* SEEK_CUR: 从当前指针位置算起
+* SEEK_END: 从文件末尾开始算起
+
+成功：返回新的文件偏移量(在文件的第几字节处)
+失败：返回-1，并设置errno
+注：不访问磁盘，只改内存记录
+
+② write
+
+ssize_t write(int fd, const void *buf, size_t count);
+
+核心：从当前位置的读写指针开始，写入指定数量(count)的字节
+
+fd：		文件描述符，记录了当前文件内读写指针的位置
+buf:	指向要写入数据的内存缓冲区（你想写入文件中的内容）
+count：	要写入的字节数。
+
+成功：返回写入的字节数
+失败：返回-1，并设置errno表示错误类型
+
+③ read
+
+ssize_t read(int fd, void *buf, size_t count);
+
+核心：从当前文件中的读写指针的偏移量的位置开始，读取指定(count)的字节
+
+fd: 	文件描述符，存储着当前文件内读写指针偏移量的位置
+buf: 	将读取的数据存储到这个缓冲区中
+count:	要读取的字节数
+
+成功：返回实际读取的字节数，或返回0，表示读到文件的末尾
+失败：返回-1，表示读取出错，错误信息存储在errno
+
+④ close
+
+int close(int fd);
+
+核心：释放当前进程中fd对应文件的条目，让这个fd变为无效，但是这个操作不等于关闭文件本身
+因为其他文件描述符或者进程可能还在引用这个文件对象。只有所有引用都关闭时，才真正释放文件资源。
+
+fd: 文件描述符，记录着一些关键信息的引用
+
+成功： 返回0
+失败：返回-1，并设置errno
+
+错误类型：
+EBADF：	fd不是一个有效的打开文件描述符
+EINTR：	调用被信号中断
+EIO：	发生I/O错误
+
+⑤ unlink
+
+int unlink(const char *pathname);
+
+核心：删除文件名 pathname 所指的文件，也就是说它会从文件系统中移除一个名字对inode的引用
+注意：这不是立即删除文件内容，而是解除文件名与文件数据的关联。
+文件本身只有在“没有任何名字引用它、并且没有进程打开它”时，才真正从磁盘删除。
+
+pathname: 路径字符串
+
+成功时返回 0
+失败时返回 -1，并设置 errno
+
+二、 #include <stdlib.h>
+① system
+
+int system(const char *command);
+
+核心： 让你的 C 程序像在终端里执行命令那样，运行任何 shell 命令
+
+command: 要执行的命令字符串。你可以把它理解为程序中自动输入了一条终端命令。
+
+成功执行命令：返回 shell 命令的退出状态值(不是直接的执行结果，而是命令本身执行完的状态码)
+你可以使用 WEXITSTATUS(status) 宏获取。
+失败：返回 -1(比如 fork 失败或没有 /bin/sh)
+
+传入 NULL：
+如果存在 shell，则返回非 0
+如果系统没有 shell，返回 0
+
+三、 #include <sys/stat.h> 
+
+struct stat st;
+int stat(const char *pathname, struct stat *statbuf);
+
+核心： stat()用于获取指定路径文件的详细信息
+(如文件大小、权限、最后修改时间等，并将这些信息填充到用户提供的struct stat结构体中)
+
+struct stat st;		# 用于存储指定路径文件的详细信息
+
+pathname： 			# 要查询的文件路径，可以是绝对路径或相对路径。
+statbuf：			# 指向一个 struct stat 结构体的指针，用于存储获取到的文件信息。
+
+成功：返回 0
+失败：返回 -1，并设置 errno
+
+四、 #include <fcntl.h>   
+
+① open
+
+int open(const char *pathname, int flags);
+int open(const char *pathname, int flags, mode_t mode);  // 创建文件时需要 mode 参数
+
+pathname: 		# 文件路径名
+flags:			# 控制文件如何打开
+mode: 			# 仅当使用O_CREAT时才有效，用于设置文件权限
+
+flags:
+* 访问模式(必选，只能取一个)：
+	O_RDONLY：	只读打开
+	O_WRONLY：	只写打开
+	O_RDWR：		读写打开
+* 创建/文件存在行为（可选，可组合）：
+	O_CREAT：	如果文件不存在就创建（需提供 mode）
+	O_EXCL：		和 O_CREAT 一起用，文件存在就报错（防止覆盖）
+	O_TRUNC：	若文件存在则清空内容（仅对 O_WRONLY 或 O_RDWR 有效）
+	O_APPEND：	写入时从文件末尾追加，不会覆盖内容
+* 文件控制选项（进阶）：
+	O_NONBLOCK：非阻塞模式（常用于设备或 socket）
+	O_SYNC：		写入操作等待同步完成
+	O_NOFOLLOW：	不要跟随符号链接
+	
+mode: 通常使用八进制表示
+	S_IRUSR（0400）：用户可读
+	S_IWUSR（0200）：用户可写
+	S_IXUSR（0100）：用户可执行
+	S_IRGRP（0040）：组可读
+	S_IWGRP（0020）：组可写
+	S_IXGRP（0010）：组可执行
+	S_IROTH（0004）：其他人可读
+	S_IWOTH（0002）：其他人可写
+	S_IXOTH（0001）：其他人可执行
+	
+成功：返回一个 非负整数，即“文件描述符 fd”
+失败：返回 -1，并设置 errno，可用 perror() 或 strerror(errno) 查看错误信息
+
+
+五、 OTHER
+string.ctr();		# 将 string 对象转为const char *
+strerror(error);	# 打印系统调用函数报错信息
