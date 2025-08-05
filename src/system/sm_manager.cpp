@@ -85,7 +85,22 @@ void SmManager::drop_db(const std::string& db_name) {
  * @param {string&} db_name 数据库名称，与文件夹同名
  */
 void SmManager::open_db(const std::string& db_name) {
-    
+    if (!is_dir(db_name)) {
+        throw DatabaseNotFoundError(db_name);
+    }
+    if (chdir(db_name.c_str()) < 0) {
+        throw UnixError();
+    }
+    // 在当前目录下打开对应的文件夹，将文件夹中的数据放入到db_对象中
+    std::ifstream ifs(DB_META_NAME);
+    ifs >> db_;
+
+    for (auto& [table_name, table_info] : db_.tabs_) {
+        fhs_[table_name] = rm_manager_->open_file(table_name);
+        // fhs_.emplace(table_name, rm_manager_->open_file(table_name));
+        /* 这里要后续要加上索引 */
+    }
+    return ;
 }
 
 /**
@@ -101,7 +116,17 @@ void SmManager::flush_meta() {
  * @description: 关闭数据库并把数据落盘
  */
 void SmManager::close_db() {
-    
+    flush_meta();
+    for (auto& fh : fhs_) {
+        rm_manager_->close_file(fh.second.get());
+    }
+    db_.name_.clear();
+    db_.tabs_.clear();
+    fhs_.clear();
+
+    if (chdir("..") < 0) {
+        throw UnixError();
+    }
 }
 
 /**
@@ -188,7 +213,19 @@ void SmManager::create_table(const std::string& tab_name, const std::vector<ColD
  * @param {Context*} context
  */
 void SmManager::drop_table(const std::string& tab_name, Context* context) {
+    if (!db_.is_table(tab_name)) {
+        throw TableNotFoundError(tab_name);
+    }
     
+    /* 这里记得后面加上删除索引的操作 */
+    if (fhs_.count(tab_name)) {
+        rm_manager_->close_file(fhs_[tab_name].get());
+        fhs_.erase(tab_name);
+    }
+    rm_manager_->destroy_file(tab_name);
+    db_.tabs_.erase(tab_name);
+
+    flush_meta();
 }
 
 /**

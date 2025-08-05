@@ -192,14 +192,18 @@ class DbMeta {
         return os;
     }
 
+    // 重载db的输入流,经过这一步之后,就会把数据库中表的数据加载到db_对象中了
     friend std::istream &operator>>(std::istream &is, DbMeta &db_meta) {
         size_t n;
         is >> db_meta.name_ >> n;
+        // std::cout << db_meta.name_ << std::endl;
         for (size_t i = 0; i < n; i++) {
             TabMeta tab;
             is >> tab;
             db_meta.tabs_[tab.name] = tab;
+            // std::cout << tab.name << std::endl;
         }
+        
         return is;
     }
 };
