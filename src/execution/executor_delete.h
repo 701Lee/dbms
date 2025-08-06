@@ -25,8 +25,7 @@ class DeleteExecutor : public AbstractExecutor {
     SmManager *sm_manager_;
 
    public:
-    DeleteExecutor(SmManager *sm_manager, const std::string &tab_name, std::vector<Condition> conds,
-                   std::vector<Rid> rids, Context *context) {
+    DeleteExecutor(SmManager *sm_manager, const std::string &tab_name, std::vector<Condition> conds, std::vector<Rid> rids, Context *context) {
         sm_manager_ = sm_manager;
         tab_name_ = tab_name;
         tab_ = sm_manager_->db_.get_table(tab_name);
@@ -35,10 +34,22 @@ class DeleteExecutor : public AbstractExecutor {
         rids_ = rids;
         context_ = context;
     }
+    /*
+        这里的beginTuple和nextTuple都是用来遍历所有的记录的,核心思想是找到满足条件的rid,并记录在数组中
+        然后调用Next()函数，调用RmFileHandle的deleteRocord删除指定位置上的记录
+    */
 
     std::unique_ptr<RmRecord> Next() override {
+        // 这里先只删除记录
+        std::cout << rids_.size() << std::endl;
+        for (auto rid : rids_) {
+            fh_->delete_record(rid, context_);
+        }
+        /* 这里还需要删除对应的索引文件,后面需要添加 */
         return nullptr;
     }
 
     Rid &rid() override { return _abstract_rid; }
+
+    std::string getType() override { return "DeleteExecutor"; };
 };

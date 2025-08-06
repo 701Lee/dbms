@@ -70,9 +70,137 @@ struct Value {
             memcpy(raw->data, str_val.c_str(), str_val.size());
         }
     }
+    // 重载value的比较运算符 > < == != >= <=
+    bool operator>(const Value &rhs) const {
+        if (!isComparable(type, rhs.type)) {
+            throw IncompatibleTypeError(coltype2str(type), coltype2str(rhs.type));
+        }
+
+        switch (type) {
+            case TYPE_INT:
+                if (rhs.type == TYPE_INT) {
+                    return int_val > rhs.int_val;
+                } else if (rhs.type == TYPE_FLOAT) {
+                    return int_val > rhs.float_val;
+                }
+            case TYPE_FLOAT:
+                if (rhs.type == TYPE_INT) {
+                    return float_val > rhs.int_val;
+                } else if (rhs.type == TYPE_FLOAT) {
+                    return float_val > rhs.float_val;
+                }
+            case TYPE_STRING:
+                return strcmp(str_val.c_str(), rhs.str_val.c_str()) > 0;
+        }
+        throw IncompatibleTypeError(coltype2str(type), coltype2str(rhs.type));
+    }
+
+    bool operator<(const Value &rhs) const {
+        if (!isComparable(type, rhs.type)) {
+            throw IncompatibleTypeError(coltype2str(type), coltype2str(rhs.type));
+        }
+
+        switch (type) {
+            case TYPE_INT:
+                if (rhs.type == TYPE_INT) {
+                    return int_val < rhs.int_val;
+                } else if (rhs.type == TYPE_FLOAT) {
+                    return int_val < rhs.float_val;
+                }
+            case TYPE_FLOAT:
+                if (rhs.type == TYPE_INT) {
+                    return float_val < rhs.int_val;
+                } else if (rhs.type == TYPE_FLOAT) {
+                    return float_val < rhs.float_val;
+                }
+            case TYPE_STRING:
+                return strcmp(str_val.c_str(), rhs.str_val.c_str()) < 0;
+        }
+
+        throw IncompatibleTypeError(coltype2str(type), coltype2str(rhs.type));
+    }
+
+    bool operator==(const Value &rhs) const {
+        if (!isComparable(type, rhs.type)) {
+            return false;
+        }
+
+        switch (type) {
+            case TYPE_INT:
+                if (rhs.type == TYPE_INT) {
+                    return int_val == rhs.int_val;
+                } else if (rhs.type == TYPE_FLOAT) {
+                    return int_val == rhs.float_val;
+                }
+            case TYPE_FLOAT:
+                if (rhs.type == TYPE_INT) {
+                    return float_val == rhs.int_val;
+                } else if (rhs.type == TYPE_FLOAT) {
+                    return float_val == rhs.float_val;
+                }
+            case TYPE_STRING:
+                return strcmp(str_val.c_str(), rhs.str_val.c_str()) == 0;
+        }
+
+        throw IncompatibleTypeError(coltype2str(type), coltype2str(rhs.type));
+    }
+
+    bool operator!=(const Value &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator>=(const Value &rhs) const {
+        if (!isComparable(type, rhs.type)) {
+            throw IncompatibleTypeError(coltype2str(type), coltype2str(rhs.type));
+        }
+
+        switch (type) {
+            case TYPE_INT:
+                if (rhs.type == TYPE_INT) {
+                    return int_val >= rhs.int_val;
+                } else if (rhs.type == TYPE_FLOAT) {
+                    return int_val >= rhs.float_val;
+                }
+            case TYPE_FLOAT:
+                if (rhs.type == TYPE_INT) {
+                    return float_val >= rhs.int_val;
+                } else if (rhs.type == TYPE_FLOAT) {
+                    return float_val >= rhs.float_val;
+                }
+            case TYPE_STRING:
+                return strcmp(str_val.c_str(), rhs.str_val.c_str()) >= 0;
+        }
+
+        throw IncompatibleTypeError(coltype2str(type), coltype2str(rhs.type));
+    }
+
+    bool operator<=(const Value &rhs) const {
+        if (!isComparable(type, rhs.type)) {
+            throw IncompatibleTypeError(coltype2str(type), coltype2str(rhs.type));
+        }
+
+        switch (type) {
+            case TYPE_INT:
+                if (rhs.type == TYPE_INT) {
+                    return int_val <= rhs.int_val;
+                } else if (rhs.type == TYPE_FLOAT) {
+                    return int_val <= rhs.float_val;
+                }
+            case TYPE_FLOAT:
+                if (rhs.type == TYPE_INT) {
+                    return float_val <= rhs.int_val;
+                } else if (rhs.type == TYPE_FLOAT) {
+                    return float_val <= rhs.float_val;
+                }
+            case TYPE_STRING:
+                return strcmp(str_val.c_str(), rhs.str_val.c_str()) <= 0;
+        }
+
+        throw IncompatibleTypeError(coltype2str(type), coltype2str(rhs.type));
+    }
 };
 
-enum CompOp { OP_EQ, OP_NE, OP_LT, OP_GT, OP_LE, OP_GE };
+enum CompOp { OP_EQ, OP_NE, OP_LT, OP_GT, OP_LE, OP_GE};
 
 struct Condition {
     TabCol lhs_col;   // left-hand side column

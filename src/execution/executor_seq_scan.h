@@ -16,6 +16,8 @@ See the Mulan PSL v2 for more details. */
 #include "index/ix.h"
 #include "system/sm.h"
 
+// 扫描算子
+
 class SeqScanExecutor : public AbstractExecutor {
    private:
     std::string tab_name_;              // 表的名称
@@ -45,17 +47,76 @@ class SeqScanExecutor : public AbstractExecutor {
         fed_conds_ = conds_;
     }
 
+    /*
+        这里的beginTuple和nextTuple都是用来遍历所有的记录的,核心思想是找到满足条件的rid,并记录在数组中
+    */
+
+    size_t tupleLen() const override { return len_; };
+
+    
+
+    bool isTupleMatched(std::unique_ptr<RmRecord> &record, const Condition &cond) {
+        TabCol lhsCol = cond.lhs_col;
+        ColMeta lhsColMeta = *get_col(cols_, lhsCol);
+
+        Value lhsVal = fetchColumnValue(record, lhsColMeta);    // 获取左列上的值
+
+        if (cond.is_rhs_val) {
+            Value rhsVal = cond.rhs_val;
+            
+            return cmpVal(lhsVal, rhsVal, cond.op);
+        } else {
+            TabCol rhsCol = cond.rhs_col;
+            ColMeta rhsColMeta = *get_col(cols_, rhsCol);
+
+            /* 右边可能是一个值列表,但是这里先不用管 */
+            Value rhsVal = fetchColumnValue(record, rhsColMeta);
+            return cmpVal(lhsVal, rhsVal, cond.op);
+        }
+        return false;
+    }
+
     void beginTuple() override {
-        
+        for (scan_ = std::make_unique<RmScan>(fh_); !scan_->is_end(); scan_->next()) {
+            // 检查当前记录是否满足条件 1.条件为空 2.满足fed_中的条件
+            rid_ = scan_->rid();
+            
+            auto record = fh_->get_record(rid_, context_);
+            if (fed_conds_.empty()) {
+                return ;
+            }
+            for (auto& cond : fed_conds_) {
+                // 对比当前记录和所有的条件
+                if (isTupleMatched(record, cond)) {
+                    return ;
+                } 
+            }
+        }
+        return ;
     }
 
     void nextTuple() override {
-        
+        for (scan_->next(); !scan_->is_end(); scan_->next()) {
+            rid_ = scan_->rid();
+            auto record = fh_->get_record(rid_, context_);
+            if (fed_conds_.empty()) break;
+            for (auto& cond : fed_conds_) {
+                // 对比当前记录和所有的条件
+                if (isTupleMatched(record, cond)) {
+                    return ;
+                } 
+            }
+        }
+        return ;
     }
+    bool is_end() const override { return scan_->is_end(); };
 
     std::unique_ptr<RmRecord> Next() override {
-        return nullptr;
+        
+        return fh_->get_record(rid_, context_);;
     }
 
     Rid &rid() override { return rid_; }
+
+    const std::vector<ColMeta> &cols() const override { return cols_; }
 };

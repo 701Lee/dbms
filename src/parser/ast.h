@@ -188,6 +188,9 @@ struct DeleteStmt : public TreeNode {
     std::string tab_name;
     std::vector<std::shared_ptr<BinaryExpr>> conds;
 
+    DeleteStmt(std::string tab_name_) :
+            tab_name(std::move(tab_name_)) {}
+
     DeleteStmt(std::string tab_name_, std::vector<std::shared_ptr<BinaryExpr>> conds_) :
             tab_name(std::move(tab_name_)), conds(std::move(conds_)) {}
 };

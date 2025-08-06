@@ -31,9 +31,9 @@ class SmManager {
     std::unordered_map<std::string, std::unique_ptr<RmFileHandle>> fhs_;    // file name -> record file handle, 当前数据库中每张表的数据文件
     std::unordered_map<std::string, std::unique_ptr<IxIndexHandle>> ihs_;   // file name -> index file handle, 当前数据库中每个索引的文件
    private:
-    DiskManager* disk_manager_;
-    BufferPoolManager* buffer_pool_manager_;
-    RmManager* rm_manager_;
+    DiskManager* disk_manager_;                     // 创建日志文件的时候要使用
+    BufferPoolManager* buffer_pool_manager_;            
+    RmManager* rm_manager_;                         // 对表文件进行一些操作
     IxManager* ix_manager_;
 
    public:

@@ -30,13 +30,16 @@ class InsertExecutor : public AbstractExecutor {
         tab_ = sm_manager_->db_.get_table(tab_name);
         values_ = values;
         tab_name_ = tab_name;
+
+        /* 目前只支持值列表的数量等于表中属性列的数量,后续可以进行修改 */
         if (values.size() != tab_.cols.size()) {
             throw InvalidValueCountError();
         }
-        fh_ = sm_manager_->fhs_.at(tab_name).get();
+        fh_ = sm_manager_->fhs_.at(tab_name).get();     // 当前表文件句柄的裸指针
         context_ = context;
     };
 
+    /* 注意,这里虽然具有返回值,但是并没有对返回值的操作,所以这里返回的是nullptr */
     std::unique_ptr<RmRecord> Next() override {
         // Make record buffer
         RmRecord rec(fh_->get_file_hdr().record_size);
@@ -50,8 +53,7 @@ class InsertExecutor : public AbstractExecutor {
             memcpy(rec.data + col.offset, val.raw->data, col.len);
         }
         // Insert into record file
-        rid_ = fh_->insert_record(rec.data, context_);
-        
+        rid_ = fh_->insert_record(rec.data, context_);      // 主干,用来插入一条新的记录
         // Insert into index
         for(size_t i = 0; i < tab_.indexes.size(); ++i) {
             auto& index = tab_.indexes[i];
@@ -65,6 +67,9 @@ class InsertExecutor : public AbstractExecutor {
             ih->insert_entry(key, rid_, context_->txn_);
         }
         return nullptr;
+        // return std::make_unique<RmRecord>(rec);
     }
     Rid &rid() override { return rid_; }
+
+    std::string getType() override { return "InsertExecutor"; };
 };

@@ -67,7 +67,7 @@
 
 
 /* First part of user prologue.  */
-#line 1 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 1 "yacc.y"
 
 #include "ast.h"
 #include "yacc.tab.h"
@@ -82,7 +82,7 @@ void yyerror(YYLTYPE *locp, const char* s) {
 
 using namespace ast;
 
-#line 86 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 86 "yacc.tab.cpp"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -105,7 +105,7 @@ using namespace ast;
 #  endif
 # endif
 
-#include "yacc.tab.h"
+#include "yacc.tab.hpp"
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -532,7 +532,7 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  31
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  74
+#define YYNRULES  75
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  135
 
@@ -589,12 +589,12 @@ static const yytype_int16 yyrline[] =
 {
        0,    58,    58,    63,    68,    73,    81,    82,    83,    84,
       85,    89,    93,    97,   101,   108,   115,   122,   126,   130,
-     134,   138,   145,   149,   153,   157,   164,   168,   175,   179,
-     186,   193,   197,   201,   208,   212,   219,   223,   227,   231,
-     238,   245,   246,   253,   257,   264,   268,   275,   279,   286,
-     290,   294,   298,   302,   306,   313,   317,   324,   328,   335,
-     342,   346,   350,   354,   358,   365,   369,   373,   380,   381,
-     382,   386,   387,   390,   392
+     134,   138,   145,   149,   153,   157,   161,   168,   172,   179,
+     183,   190,   197,   201,   205,   212,   216,   224,   228,   232,
+     236,   243,   250,   251,   258,   262,   269,   273,   280,   284,
+     291,   295,   299,   303,   307,   311,   318,   322,   329,   333,
+     340,   347,   351,   355,   359,   363,   370,   374,   378,   385,
+     386,   387,   391,   392,   395,   397
 };
 #endif
 
@@ -637,7 +637,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-74)
+#define YYTABLE_NINF (-75)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -669,18 +669,18 @@ static const yytype_int8 yydefact[] =
 {
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        4,     3,    11,    12,    13,    14,     5,     0,     0,     9,
-       6,    10,     7,     8,    15,     0,     0,     0,     0,    73,
-      19,     0,     0,     0,    71,    72,     0,    74,    60,    47,
-      61,     0,     0,    46,     1,     2,     0,     0,    18,     0,
-       0,    41,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,    23,    74,    41,    57,     0,    16,    48,    41,
-      62,    45,     0,    26,     0,     0,    28,     0,     0,    43,
-      42,     0,     0,    24,     0,     0,     0,    66,    17,     0,
-      31,     0,    33,    30,    20,     0,    21,    38,    36,    37,
-      39,     0,    34,     0,    53,    52,    54,    49,    50,    51,
-       0,    58,    59,    64,    63,     0,    25,    27,     0,    29,
-      22,     0,    44,    55,    56,    40,     0,     0,    35,    70,
-      65,    32,    69,    68,    67
+       6,    10,     7,     8,    15,     0,     0,     0,     0,    74,
+      19,     0,     0,     0,    72,    73,     0,    75,    61,    48,
+      62,     0,     0,    47,     1,     2,     0,     0,    18,     0,
+       0,    23,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,    24,    75,    42,    58,     0,    16,    49,    42,
+      63,    46,     0,    27,     0,     0,    29,     0,     0,    44,
+      43,     0,     0,    25,     0,     0,     0,    67,    17,     0,
+      32,     0,    34,    31,    20,     0,    21,    39,    37,    38,
+      40,     0,    35,     0,    54,    53,    55,    50,    51,    52,
+       0,    59,    60,    65,    64,     0,    26,    28,     0,    30,
+      22,     0,    45,    56,    57,    41,     0,     0,    36,    71,
+      66,    33,    70,    69,    68
 };
 
 /* YYPGOTO[NTERM-NUM].  */
@@ -715,7 +715,7 @@ static const yytype_int16 yytable[] =
       14,    15,   104,   105,   106,    88,    89,    55,    16,    90,
       91,    92,   107,    97,    98,    99,   100,   108,   109,    94,
       95,    60,   113,   114,    37,    97,    98,    99,   100,    96,
-      95,   120,   121,    57,    61,   -73,    54,    58,    59,    56,
+      95,   120,   121,    57,    61,   -74,    54,    58,    59,    56,
       63,   124,    67,    37,    78,    84,   103,   115,   118,   126,
      127,    77,   131,   117,     0,   122,     0,   129,   111
 };
@@ -761,12 +761,12 @@ static const yytype_int8 yyr1[] =
 {
        0,    54,    55,    55,    55,    55,    56,    56,    56,    56,
       56,    57,    57,    57,    57,    58,    59,    60,    60,    60,
-      60,    60,    61,    61,    61,    61,    62,    62,    63,    63,
-      64,    65,    65,    65,    66,    66,    67,    67,    67,    67,
-      68,    69,    69,    70,    70,    71,    71,    72,    72,    73,
-      73,    73,    73,    73,    73,    74,    74,    75,    75,    76,
-      77,    77,    78,    78,    78,    79,    79,    80,    81,    81,
-      81,    82,    82,    83,    84
+      60,    60,    61,    61,    61,    61,    61,    62,    62,    63,
+      63,    64,    65,    65,    65,    66,    66,    67,    67,    67,
+      67,    68,    69,    69,    70,    70,    71,    71,    72,    72,
+      73,    73,    73,    73,    73,    73,    74,    74,    75,    75,
+      76,    77,    77,    78,    78,    78,    79,    79,    80,    81,
+      81,    81,    82,    82,    83,    84
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -774,12 +774,12 @@ static const yytype_int8 yyr2[] =
 {
        0,     2,     2,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     2,     4,     6,     3,     2,
-       6,     6,     7,     4,     5,     6,     1,     3,     1,     3,
-       2,     1,     4,     1,     1,     3,     1,     1,     1,     1,
-       3,     0,     2,     1,     3,     3,     1,     1,     3,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     3,     3,
-       1,     1,     1,     3,     3,     3,     0,     2,     1,     1,
-       0,     1,     1,     1,     1
+       6,     6,     7,     3,     4,     5,     6,     1,     3,     1,
+       3,     2,     1,     4,     1,     1,     3,     1,     1,     1,
+       1,     3,     0,     2,     1,     3,     3,     1,     1,     3,
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     3,
+       3,     1,     1,     1,     3,     3,     3,     0,     2,     1,
+       1,     0,     1,     1,     1,     1
 };
 
 
@@ -1635,517 +1635,526 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* start: stmt ';'  */
-#line 59 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 59 "yacc.y"
     {
         parse_tree = (yyvsp[-1].sv_node);
         YYACCEPT;
     }
-#line 1644 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1644 "yacc.tab.cpp"
     break;
 
   case 3: /* start: HELP  */
-#line 64 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 64 "yacc.y"
     {
         parse_tree = std::make_shared<Help>();
         YYACCEPT;
     }
-#line 1653 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1653 "yacc.tab.cpp"
     break;
 
   case 4: /* start: EXIT  */
-#line 69 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 69 "yacc.y"
     {
         parse_tree = nullptr;
         YYACCEPT;
     }
-#line 1662 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1662 "yacc.tab.cpp"
     break;
 
   case 5: /* start: T_EOF  */
-#line 74 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 74 "yacc.y"
     {
         parse_tree = nullptr;
         YYACCEPT;
     }
-#line 1671 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1671 "yacc.tab.cpp"
     break;
 
   case 11: /* txnStmt: TXN_BEGIN  */
-#line 90 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 90 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<TxnBegin>();
     }
-#line 1679 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1679 "yacc.tab.cpp"
     break;
 
   case 12: /* txnStmt: TXN_COMMIT  */
-#line 94 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 94 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<TxnCommit>();
     }
-#line 1687 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1687 "yacc.tab.cpp"
     break;
 
   case 13: /* txnStmt: TXN_ABORT  */
-#line 98 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 98 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<TxnAbort>();
     }
-#line 1695 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1695 "yacc.tab.cpp"
     break;
 
   case 14: /* txnStmt: TXN_ROLLBACK  */
-#line 102 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 102 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<TxnRollback>();
     }
-#line 1703 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1703 "yacc.tab.cpp"
     break;
 
   case 15: /* dbStmt: SHOW TABLES  */
-#line 109 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 109 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<ShowTables>();
     }
-#line 1711 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1711 "yacc.tab.cpp"
     break;
 
   case 16: /* setStmt: SET set_knob_type '=' VALUE_BOOL  */
-#line 116 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 116 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<SetStmt>((yyvsp[-2].sv_setKnobType), (yyvsp[0].sv_bool));
     }
-#line 1719 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1719 "yacc.tab.cpp"
     break;
 
   case 17: /* ddl: CREATE TABLE tbName '(' fieldList ')'  */
-#line 123 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 123 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<CreateTable>((yyvsp[-3].sv_str), (yyvsp[-1].sv_fields));
     }
-#line 1727 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1727 "yacc.tab.cpp"
     break;
 
   case 18: /* ddl: DROP TABLE tbName  */
-#line 127 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 127 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<DropTable>((yyvsp[0].sv_str));
     }
-#line 1735 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1735 "yacc.tab.cpp"
     break;
 
   case 19: /* ddl: DESC tbName  */
-#line 131 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 131 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<DescTable>((yyvsp[0].sv_str));
     }
-#line 1743 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1743 "yacc.tab.cpp"
     break;
 
   case 20: /* ddl: CREATE INDEX tbName '(' colNameList ')'  */
-#line 135 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 135 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<CreateIndex>((yyvsp[-3].sv_str), (yyvsp[-1].sv_strs));
     }
-#line 1751 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1751 "yacc.tab.cpp"
     break;
 
   case 21: /* ddl: DROP INDEX tbName '(' colNameList ')'  */
-#line 139 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 139 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<DropIndex>((yyvsp[-3].sv_str), (yyvsp[-1].sv_strs));
     }
-#line 1759 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1759 "yacc.tab.cpp"
     break;
 
   case 22: /* dml: INSERT INTO tbName VALUES '(' valueList ')'  */
-#line 146 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 146 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<InsertStmt>((yyvsp[-4].sv_str), (yyvsp[-1].sv_vals));
     }
-#line 1767 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1767 "yacc.tab.cpp"
     break;
 
-  case 23: /* dml: DELETE FROM tbName optWhereClause  */
-#line 150 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 23: /* dml: DELETE FROM tbName  */
+#line 150 "yacc.y"
+    {
+        (yyval.sv_node) = std::make_shared<DeleteStmt>((yyvsp[0].sv_str));
+    }
+#line 1775 "yacc.tab.cpp"
+    break;
+
+  case 24: /* dml: DELETE FROM tbName optWhereClause  */
+#line 154 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<DeleteStmt>((yyvsp[-1].sv_str), (yyvsp[0].sv_conds));
     }
-#line 1775 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1783 "yacc.tab.cpp"
     break;
 
-  case 24: /* dml: UPDATE tbName SET setClauses optWhereClause  */
-#line 154 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 25: /* dml: UPDATE tbName SET setClauses optWhereClause  */
+#line 158 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<UpdateStmt>((yyvsp[-3].sv_str), (yyvsp[-1].sv_set_clauses), (yyvsp[0].sv_conds));
     }
-#line 1783 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1791 "yacc.tab.cpp"
     break;
 
-  case 25: /* dml: SELECT selector FROM tableList optWhereClause opt_order_clause  */
-#line 158 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 26: /* dml: SELECT selector FROM tableList optWhereClause opt_order_clause  */
+#line 162 "yacc.y"
     {
         (yyval.sv_node) = std::make_shared<SelectStmt>((yyvsp[-4].sv_cols), (yyvsp[-2].sv_strs), (yyvsp[-1].sv_conds), (yyvsp[0].sv_orderby));
     }
-#line 1791 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1799 "yacc.tab.cpp"
     break;
 
-  case 26: /* fieldList: field  */
-#line 165 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 27: /* fieldList: field  */
+#line 169 "yacc.y"
     {
         (yyval.sv_fields) = std::vector<std::shared_ptr<Field>>{(yyvsp[0].sv_field)};
     }
-#line 1799 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1807 "yacc.tab.cpp"
     break;
 
-  case 27: /* fieldList: fieldList ',' field  */
-#line 169 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 28: /* fieldList: fieldList ',' field  */
+#line 173 "yacc.y"
     {
         (yyval.sv_fields).push_back((yyvsp[0].sv_field));
     }
-#line 1807 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1815 "yacc.tab.cpp"
     break;
 
-  case 28: /* colNameList: colName  */
-#line 176 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 29: /* colNameList: colName  */
+#line 180 "yacc.y"
     {
         (yyval.sv_strs) = std::vector<std::string>{(yyvsp[0].sv_str)};
     }
-#line 1815 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1823 "yacc.tab.cpp"
     break;
 
-  case 29: /* colNameList: colNameList ',' colName  */
-#line 180 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 30: /* colNameList: colNameList ',' colName  */
+#line 184 "yacc.y"
     {
         (yyval.sv_strs).push_back((yyvsp[0].sv_str));
     }
-#line 1823 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1831 "yacc.tab.cpp"
     break;
 
-  case 30: /* field: colName type  */
-#line 187 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 31: /* field: colName type  */
+#line 191 "yacc.y"
     {
         (yyval.sv_field) = std::make_shared<ColDef>((yyvsp[-1].sv_str), (yyvsp[0].sv_type_len));
     }
-#line 1831 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1839 "yacc.tab.cpp"
     break;
 
-  case 31: /* type: INT  */
-#line 194 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 32: /* type: INT  */
+#line 198 "yacc.y"
     {
         (yyval.sv_type_len) = std::make_shared<TypeLen>(SV_TYPE_INT, sizeof(int));
     }
-#line 1839 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1847 "yacc.tab.cpp"
     break;
 
-  case 32: /* type: CHAR '(' VALUE_INT ')'  */
-#line 198 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 33: /* type: CHAR '(' VALUE_INT ')'  */
+#line 202 "yacc.y"
     {
         (yyval.sv_type_len) = std::make_shared<TypeLen>(SV_TYPE_STRING, (yyvsp[-1].sv_int));
     }
-#line 1847 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1855 "yacc.tab.cpp"
     break;
 
-  case 33: /* type: FLOAT  */
-#line 202 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 34: /* type: FLOAT  */
+#line 206 "yacc.y"
     {
         (yyval.sv_type_len) = std::make_shared<TypeLen>(SV_TYPE_FLOAT, sizeof(float));
     }
-#line 1855 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1863 "yacc.tab.cpp"
     break;
 
-  case 34: /* valueList: value  */
-#line 209 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 35: /* valueList: value  */
+#line 213 "yacc.y"
     {
         (yyval.sv_vals) = std::vector<std::shared_ptr<Value>>{(yyvsp[0].sv_val)};
     }
-#line 1863 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1871 "yacc.tab.cpp"
     break;
 
-  case 35: /* valueList: valueList ',' value  */
-#line 213 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 36: /* valueList: valueList ',' value  */
+#line 217 "yacc.y"
     {
+        (yyval.sv_vals) = (yyvsp[-2].sv_vals);
         (yyval.sv_vals).push_back((yyvsp[0].sv_val));
     }
-#line 1871 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1880 "yacc.tab.cpp"
     break;
 
-  case 36: /* value: VALUE_INT  */
-#line 220 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 37: /* value: VALUE_INT  */
+#line 225 "yacc.y"
     {
         (yyval.sv_val) = std::make_shared<IntLit>((yyvsp[0].sv_int));
     }
-#line 1879 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1888 "yacc.tab.cpp"
     break;
 
-  case 37: /* value: VALUE_FLOAT  */
-#line 224 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 38: /* value: VALUE_FLOAT  */
+#line 229 "yacc.y"
     {
         (yyval.sv_val) = std::make_shared<FloatLit>((yyvsp[0].sv_float));
     }
-#line 1887 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1896 "yacc.tab.cpp"
     break;
 
-  case 38: /* value: VALUE_STRING  */
-#line 228 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 39: /* value: VALUE_STRING  */
+#line 233 "yacc.y"
     {
         (yyval.sv_val) = std::make_shared<StringLit>((yyvsp[0].sv_str));
     }
-#line 1895 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1904 "yacc.tab.cpp"
     break;
 
-  case 39: /* value: VALUE_BOOL  */
-#line 232 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 40: /* value: VALUE_BOOL  */
+#line 237 "yacc.y"
     {
         (yyval.sv_val) = std::make_shared<BoolLit>((yyvsp[0].sv_bool));
     }
-#line 1903 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1912 "yacc.tab.cpp"
     break;
 
-  case 40: /* condition: col op expr  */
-#line 239 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 41: /* condition: col op expr  */
+#line 244 "yacc.y"
     {
         (yyval.sv_cond) = std::make_shared<BinaryExpr>((yyvsp[-2].sv_col), (yyvsp[-1].sv_comp_op), (yyvsp[0].sv_expr));
     }
-#line 1911 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1920 "yacc.tab.cpp"
     break;
 
-  case 41: /* optWhereClause: %empty  */
-#line 245 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 42: /* optWhereClause: %empty  */
+#line 250 "yacc.y"
                       { /* ignore*/ }
-#line 1917 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1926 "yacc.tab.cpp"
     break;
 
-  case 42: /* optWhereClause: WHERE whereClause  */
-#line 247 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 43: /* optWhereClause: WHERE whereClause  */
+#line 252 "yacc.y"
     {
         (yyval.sv_conds) = (yyvsp[0].sv_conds);
     }
-#line 1925 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1934 "yacc.tab.cpp"
     break;
 
-  case 43: /* whereClause: condition  */
-#line 254 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 44: /* whereClause: condition  */
+#line 259 "yacc.y"
     {
         (yyval.sv_conds) = std::vector<std::shared_ptr<BinaryExpr>>{(yyvsp[0].sv_cond)};
     }
-#line 1933 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1942 "yacc.tab.cpp"
     break;
 
-  case 44: /* whereClause: whereClause AND condition  */
-#line 258 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 45: /* whereClause: whereClause AND condition  */
+#line 263 "yacc.y"
     {
         (yyval.sv_conds).push_back((yyvsp[0].sv_cond));
     }
-#line 1941 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1950 "yacc.tab.cpp"
     break;
 
-  case 45: /* col: tbName '.' colName  */
-#line 265 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 46: /* col: tbName '.' colName  */
+#line 270 "yacc.y"
     {
         (yyval.sv_col) = std::make_shared<Col>((yyvsp[-2].sv_str), (yyvsp[0].sv_str));
     }
-#line 1949 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1958 "yacc.tab.cpp"
     break;
 
-  case 46: /* col: colName  */
-#line 269 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 47: /* col: colName  */
+#line 274 "yacc.y"
     {
         (yyval.sv_col) = std::make_shared<Col>("", (yyvsp[0].sv_str));
     }
-#line 1957 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1966 "yacc.tab.cpp"
     break;
 
-  case 47: /* colList: col  */
-#line 276 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 48: /* colList: col  */
+#line 281 "yacc.y"
     {
         (yyval.sv_cols) = std::vector<std::shared_ptr<Col>>{(yyvsp[0].sv_col)};
     }
-#line 1965 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1974 "yacc.tab.cpp"
     break;
 
-  case 48: /* colList: colList ',' col  */
-#line 280 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 49: /* colList: colList ',' col  */
+#line 285 "yacc.y"
     {
         (yyval.sv_cols).push_back((yyvsp[0].sv_col));
     }
-#line 1973 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1982 "yacc.tab.cpp"
     break;
 
-  case 49: /* op: '='  */
-#line 287 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 50: /* op: '='  */
+#line 292 "yacc.y"
     {
         (yyval.sv_comp_op) = SV_OP_EQ;
     }
-#line 1981 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1990 "yacc.tab.cpp"
     break;
 
-  case 50: /* op: '<'  */
-#line 291 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 51: /* op: '<'  */
+#line 296 "yacc.y"
     {
         (yyval.sv_comp_op) = SV_OP_LT;
     }
-#line 1989 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 1998 "yacc.tab.cpp"
     break;
 
-  case 51: /* op: '>'  */
-#line 295 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 52: /* op: '>'  */
+#line 300 "yacc.y"
     {
         (yyval.sv_comp_op) = SV_OP_GT;
     }
-#line 1997 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2006 "yacc.tab.cpp"
     break;
 
-  case 52: /* op: NEQ  */
-#line 299 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 53: /* op: NEQ  */
+#line 304 "yacc.y"
     {
         (yyval.sv_comp_op) = SV_OP_NE;
     }
-#line 2005 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2014 "yacc.tab.cpp"
     break;
 
-  case 53: /* op: LEQ  */
-#line 303 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 54: /* op: LEQ  */
+#line 308 "yacc.y"
     {
         (yyval.sv_comp_op) = SV_OP_LE;
     }
-#line 2013 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2022 "yacc.tab.cpp"
     break;
 
-  case 54: /* op: GEQ  */
-#line 307 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 55: /* op: GEQ  */
+#line 312 "yacc.y"
     {
         (yyval.sv_comp_op) = SV_OP_GE;
     }
-#line 2021 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2030 "yacc.tab.cpp"
     break;
 
-  case 55: /* expr: value  */
-#line 314 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 56: /* expr: value  */
+#line 319 "yacc.y"
     {
         (yyval.sv_expr) = std::static_pointer_cast<Expr>((yyvsp[0].sv_val));
     }
-#line 2029 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2038 "yacc.tab.cpp"
     break;
 
-  case 56: /* expr: col  */
-#line 318 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 57: /* expr: col  */
+#line 323 "yacc.y"
     {
         (yyval.sv_expr) = std::static_pointer_cast<Expr>((yyvsp[0].sv_col));
     }
-#line 2037 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2046 "yacc.tab.cpp"
     break;
 
-  case 57: /* setClauses: setClause  */
-#line 325 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 58: /* setClauses: setClause  */
+#line 330 "yacc.y"
     {
         (yyval.sv_set_clauses) = std::vector<std::shared_ptr<SetClause>>{(yyvsp[0].sv_set_clause)};
     }
-#line 2045 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2054 "yacc.tab.cpp"
     break;
 
-  case 58: /* setClauses: setClauses ',' setClause  */
-#line 329 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 59: /* setClauses: setClauses ',' setClause  */
+#line 334 "yacc.y"
     {
         (yyval.sv_set_clauses).push_back((yyvsp[0].sv_set_clause));
     }
-#line 2053 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2062 "yacc.tab.cpp"
     break;
 
-  case 59: /* setClause: colName '=' value  */
-#line 336 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 60: /* setClause: colName '=' value  */
+#line 341 "yacc.y"
     {
         (yyval.sv_set_clause) = std::make_shared<SetClause>((yyvsp[-2].sv_str), (yyvsp[0].sv_val));
     }
-#line 2061 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2070 "yacc.tab.cpp"
     break;
 
-  case 60: /* selector: '*'  */
-#line 343 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 61: /* selector: '*'  */
+#line 348 "yacc.y"
     {
         (yyval.sv_cols) = {};
     }
-#line 2069 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2078 "yacc.tab.cpp"
     break;
 
-  case 62: /* tableList: tbName  */
-#line 351 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 63: /* tableList: tbName  */
+#line 356 "yacc.y"
     {
         (yyval.sv_strs) = std::vector<std::string>{(yyvsp[0].sv_str)};
     }
-#line 2077 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2086 "yacc.tab.cpp"
     break;
 
-  case 63: /* tableList: tableList ',' tbName  */
-#line 355 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 64: /* tableList: tableList ',' tbName  */
+#line 360 "yacc.y"
     {
         (yyval.sv_strs).push_back((yyvsp[0].sv_str));
     }
-#line 2085 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2094 "yacc.tab.cpp"
     break;
 
-  case 64: /* tableList: tableList JOIN tbName  */
-#line 359 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 65: /* tableList: tableList JOIN tbName  */
+#line 364 "yacc.y"
     {
         (yyval.sv_strs).push_back((yyvsp[0].sv_str));
     }
-#line 2093 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2102 "yacc.tab.cpp"
     break;
 
-  case 65: /* opt_order_clause: ORDER BY order_clause  */
-#line 366 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 66: /* opt_order_clause: ORDER BY order_clause  */
+#line 371 "yacc.y"
     { 
         (yyval.sv_orderby) = (yyvsp[0].sv_orderby); 
     }
-#line 2101 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2110 "yacc.tab.cpp"
     break;
 
-  case 66: /* opt_order_clause: %empty  */
-#line 369 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 67: /* opt_order_clause: %empty  */
+#line 374 "yacc.y"
                       { /* ignore*/ }
-#line 2107 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2116 "yacc.tab.cpp"
     break;
 
-  case 67: /* order_clause: col opt_asc_desc  */
-#line 374 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 68: /* order_clause: col opt_asc_desc  */
+#line 379 "yacc.y"
     { 
         (yyval.sv_orderby) = std::make_shared<OrderBy>((yyvsp[-1].sv_col), (yyvsp[0].sv_orderby_dir));
     }
-#line 2115 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2124 "yacc.tab.cpp"
     break;
 
-  case 68: /* opt_asc_desc: ASC  */
-#line 380 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 69: /* opt_asc_desc: ASC  */
+#line 385 "yacc.y"
                  { (yyval.sv_orderby_dir) = OrderBy_ASC;     }
-#line 2121 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2130 "yacc.tab.cpp"
     break;
 
-  case 69: /* opt_asc_desc: DESC  */
-#line 381 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 70: /* opt_asc_desc: DESC  */
+#line 386 "yacc.y"
                  { (yyval.sv_orderby_dir) = OrderBy_DESC;    }
-#line 2127 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2136 "yacc.tab.cpp"
     break;
 
-  case 70: /* opt_asc_desc: %empty  */
-#line 382 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 71: /* opt_asc_desc: %empty  */
+#line 387 "yacc.y"
             { (yyval.sv_orderby_dir) = OrderBy_DEFAULT; }
-#line 2133 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2142 "yacc.tab.cpp"
     break;
 
-  case 71: /* set_knob_type: ENABLE_NESTLOOP  */
-#line 386 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 72: /* set_knob_type: ENABLE_NESTLOOP  */
+#line 391 "yacc.y"
                     { (yyval.sv_setKnobType) = EnableNestLoop; }
-#line 2139 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2148 "yacc.tab.cpp"
     break;
 
-  case 72: /* set_knob_type: ENABLE_SORTMERGE  */
-#line 387 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+  case 73: /* set_knob_type: ENABLE_SORTMERGE  */
+#line 392 "yacc.y"
                          { (yyval.sv_setKnobType) = EnableSortMerge; }
-#line 2145 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2154 "yacc.tab.cpp"
     break;
 
 
-#line 2149 "/home/lee/桌面/leelee701-project/src/parser/yacc.tab.cpp"
+#line 2158 "yacc.tab.cpp"
 
       default: break;
     }
@@ -2374,5 +2383,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 393 "/home/lee/桌面/leelee701-project/src/parser/yacc.y"
+#line 398 "yacc.y"
 

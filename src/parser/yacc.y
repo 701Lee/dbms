@@ -146,6 +146,10 @@ dml:
     {
         $$ = std::make_shared<InsertStmt>($3, $6);
     }
+    |   DELETE FROM tbName
+    {
+        $$ = std::make_shared<DeleteStmt>($3);
+    }
     |   DELETE FROM tbName optWhereClause
     {
         $$ = std::make_shared<DeleteStmt>($3, $4);
@@ -211,6 +215,7 @@ valueList:
     }
     |   valueList ',' value
     {
+        $$ = $1;
         $$.push_back($3);
     }
     ;

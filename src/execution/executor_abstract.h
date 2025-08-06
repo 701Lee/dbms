@@ -14,6 +14,7 @@ See the Mulan PSL v2 for more details. */
 #include "common/common.h"
 #include "index/ix.h"
 #include "system/sm.h"
+#include "defs.h"
 
 class AbstractExecutor {
    public:
@@ -36,7 +37,7 @@ class AbstractExecutor {
 
     virtual void nextTuple(){};
 
-    virtual bool is_end() const { return true; };
+    virtual bool is_end() const { return false; };
 
     virtual Rid &rid() = 0;
 
@@ -52,5 +53,53 @@ class AbstractExecutor {
             throw ColumnNotFoundError(target.tab_name + '.' + target.col_name);
         }
         return pos;
+    }
+
+    Value fetchColumnValue(std::unique_ptr<RmRecord>& record, ColMeta &colMeta) {
+        Value result;
+        char *data = record->data + colMeta.offset;
+        size_t len = colMeta.len;
+        result.type = colMeta.type;
+        switch(colMeta.type) {
+            case TYPE_INT :
+                int tmp_int;
+                memcpy((char *)&tmp_int, data, len);
+                result.set_int(tmp_int);
+                break;
+            case TYPE_FLOAT :
+                float tmp_float;
+                memcpy((char *)&tmp_float, data, len);
+                result.set_float(tmp_float);
+                break;
+            case TYPE_STRING :
+                std::string tmp(data, len);
+                result.set_str(tmp);
+                break;
+        }
+        result.init_raw(len);
+        return result;
+    }
+
+    bool cmpVal(const Value &lhsVal, const Value &rhsVal, const CompOp &op) {
+        if(!isComparable(lhsVal.type, rhsVal.type)) {
+            throw IncompatibleTypeError(lhsVal.str_val, rhsVal.str_val);
+        }
+        switch (op) {
+            case OP_EQ:
+                return lhsVal == rhsVal;
+            case OP_NE:
+                return lhsVal != rhsVal;
+            case OP_LT:
+                return lhsVal < rhsVal;
+            case OP_GT:
+                return lhsVal > rhsVal;
+            case OP_LE:
+                return lhsVal <= rhsVal;
+            case OP_GE:
+                return lhsVal >= rhsVal;
+            default:
+                throw IncompatibleTypeError(coltype2str(lhsVal.type), coltype2str(rhsVal.type));
+        }
+        return false;
     }
 };
