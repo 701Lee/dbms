@@ -43,11 +43,11 @@ enum ColType {
     TYPE_INT, TYPE_FLOAT, TYPE_STRING
 };
 
-inline bool isComparable(const ColType &lhs, const ColType &rhs) {
-    if ((lhs == TYPE_INT && rhs == TYPE_FLOAT) || (lhs == TYPE_FLOAT && rhs == TYPE_INT)) {
+inline bool isComparable(const ColType &lhs_type, const ColType &rhs_type) {
+    if ((lhs_type == TYPE_INT && rhs_type == TYPE_FLOAT) || (lhs_type == TYPE_FLOAT && rhs_type == TYPE_INT)) {
         return true;
     } 
-    return lhs == rhs;
+    return lhs_type == rhs_type;
 }
 
 inline std::string coltype2str(ColType type) {
