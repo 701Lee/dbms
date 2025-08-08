@@ -118,6 +118,9 @@ void RmFileHandle::update_record(const Rid& rid, char* buf, Context* context) {
     }
     RmPageHandle rph = fetch_page_handle(rid.page_no);
     memcpy(rph.get_slot(rid.slot_no), buf, file_hdr_.record_size);
+
+    //将页面标记为脏页，并放入LRU链表
+    buffer_pool_manager_->unpin_page(rph.page->get_page_id(), true);
 }
 
 /**

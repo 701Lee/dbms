@@ -22,7 +22,7 @@ std::shared_ptr<Query> Analyze::do_analyze(std::shared_ptr<ast::TreeNode> parse)
         // 处理表名
         query->tables = std::move(x->tabs);
         /** TODO: 检查表是否存在 */
-
+        
         // 处理target list，再target list中添加上表名，例如 a.id
         for (auto &sv_sel_col : x->cols) {
             TabCol sel_col = {.tab_name = sv_sel_col->tab_name, .col_name = sv_sel_col->col_name};
@@ -43,12 +43,16 @@ std::shared_ptr<Query> Analyze::do_analyze(std::shared_ptr<ast::TreeNode> parse)
                 sel_col = check_column(all_cols, sel_col);  // 列元数据校验
             }
         }
+        
         //处理where条件
         get_clause(x->conds, query->conds);
         check_clause(query->tables, query->conds);
     } else if (auto x = std::dynamic_pointer_cast<ast::UpdateStmt>(parse)) {
         /** TODO: */
-
+        query->tables.push_back(x->tab_name);
+        set_clause(x->tab_name, x->set_clauses, query->set_clauses);
+        get_clause(x->conds, query->conds);
+        check_clause(query->tables, query->conds);
     } else if (auto x = std::dynamic_pointer_cast<ast::DeleteStmt>(parse)) {
         //处理where条件
         get_clause(x->conds, query->conds);
@@ -164,4 +168,41 @@ CompOp Analyze::convert_sv_comp_op(ast::SvCompOp op) {
         {ast::SV_OP_GT, OP_GT}, {ast::SV_OP_LE, OP_LE}, {ast::SV_OP_GE, OP_GE},
     };
     return m.at(op);
+}
+
+void Analyze::set_clause(const std::string& table_name,
+                const std::vector<std::shared_ptr<ast::SetClause>>& sv_conds,
+                std::vector<SetClause>& conds) {
+    conds.clear();
+    std::vector<ColMeta> all_cols;
+    std::vector<std::string> table_names;   // 这里只有一个表
+    table_names.push_back(table_name);
+    get_all_cols(table_names, all_cols);
+
+    for (auto& expr : sv_conds) {
+        /* 这里就要执行对当前set的左列和右值是否合法 */
+
+        // 1.检查列是否合法
+        TabCol tabcol;
+        tabcol.tab_name = table_name;
+        for (auto& sel_col : all_cols) {
+            if (expr->col_name == sel_col.name) {
+                tabcol.col_name = sel_col.name;
+                break;
+            }
+        }
+        if (tabcol.col_name.empty()) {
+            throw ColumnNotFoundError(expr->col_name);
+        }
+        // 2.检查值是否合法
+        Value rhs_val;
+        rhs_val = convert_sv_value(expr->val);
+
+        // 全部合法,装进query中
+        SetClause clause;
+        clause.lhs = tabcol;
+        clause.rhs = rhs_val;
+        conds.push_back(clause);
+    }
+    return ;
 }

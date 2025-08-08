@@ -33,7 +33,7 @@ WHERE UPDATE SET SELECT INT CHAR FLOAT INDEX AND JOIN EXIT HELP TXN_BEGIN TXN_CO
 %token <sv_bool> VALUE_BOOL
 
 // specify types for non-terminal symbol
-%type <sv_node> stmt dbStmt ddl dml txnStmt setStmt
+%type <sv_node> stmt dbStmt ddl dql dml txnStmt setStmt
 %type <sv_field> field
 %type <sv_fields> fieldList
 %type <sv_type_len> type
@@ -80,6 +80,7 @@ start:
 stmt:
         dbStmt
     |   ddl
+    |   dql
     |   dml
     |   txnStmt
     |   setStmt
@@ -140,15 +141,10 @@ ddl:
         $$ = std::make_shared<DropIndex>($3, $5);
     }
     ;
-
 dml:
         INSERT INTO tbName VALUES '(' valueList ')'
     {
         $$ = std::make_shared<InsertStmt>($3, $6);
-    }
-    |   DELETE FROM tbName
-    {
-        $$ = std::make_shared<DeleteStmt>($3);
     }
     |   DELETE FROM tbName optWhereClause
     {
@@ -158,7 +154,9 @@ dml:
     {
         $$ = std::make_shared<UpdateStmt>($2, $4, $5);
     }
-    |   SELECT selector FROM tableList optWhereClause opt_order_clause
+    ;
+dql:
+        SELECT selector FROM tableList optWhereClause opt_order_clause
     {
         $$ = std::make_shared<SelectStmt>($2, $4, $5, $6);
     }
@@ -247,7 +245,10 @@ condition:
     ;
 
 optWhereClause:
-        /* epsilon */ { /* ignore*/ }
+        /* epsilon */  
+    {   
+        $$ = {}; 
+    }
     |   WHERE whereClause
     {
         $$ = $2;
@@ -367,24 +368,36 @@ tableList:
     ;
 
 opt_order_clause:
-    ORDER BY order_clause      
+        /* epsilon */ 
+    {   
+        $$ = nullptr; 
+    }
+    |  ORDER BY order_clause      
     { 
         $$ = $3; 
     }
-    |   /* epsilon */ { /* ignore*/ }
     ;
 
 order_clause:
-      col  opt_asc_desc 
+       col opt_asc_desc 
     { 
         $$ = std::make_shared<OrderBy>($1, $2);
     }
     ;   
 
 opt_asc_desc:
-    ASC          { $$ = OrderBy_ASC;     }
-    |  DESC      { $$ = OrderBy_DESC;    }
-    |       { $$ = OrderBy_DEFAULT; }
+        ASC          
+    {   
+        $$ = OrderBy_ASC;     
+    }
+    |   DESC      
+    {   
+        $$ = OrderBy_DESC;    
+    }
+    |       
+    {   
+        $$ = OrderBy_DEFAULT; 
+    }
     ;    
 
 set_knob_type:

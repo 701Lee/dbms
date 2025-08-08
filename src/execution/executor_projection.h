@@ -20,7 +20,7 @@ class ProjectionExecutor : public AbstractExecutor {
     std::unique_ptr<AbstractExecutor> prev_;        // 投影节点的儿子节点
     std::vector<ColMeta> cols_;                     // 需要投影的字段
     size_t len_;                                    // 字段总长度
-    std::vector<size_t> sel_idxs_;                  
+    std::vector<size_t> sel_idxs_;                  // 字段位于记录数组中的下标（注意是下标）
 
    public:
     ProjectionExecutor(std::unique_ptr<AbstractExecutor> prev, const std::vector<TabCol> &sel_cols) {
@@ -39,13 +39,35 @@ class ProjectionExecutor : public AbstractExecutor {
         len_ = curr_offset;
     }
 
-    void beginTuple() override {}
+    const std::vector<ColMeta> &cols() const override { return cols_; }
 
-    void nextTuple() override {}
+    bool is_end() const override { return prev_->is_end(); };
+
+    std::string getType() override { return "ProjectionExecutor"; };
+
+    void beginTuple() override {
+        prev_->beginTuple();
+    }
+
+    void nextTuple() override {
+        prev_->nextTuple();
+    }
 
     std::unique_ptr<RmRecord> Next() override {
-        return nullptr;
+        auto rec = std::make_unique<RmRecord>(len_);
+        auto& prev_cols = prev_->cols();
+        auto prev_rec = prev_->Next();
+        for (size_t i = 0; i < sel_idxs_.size(); i++) {  // 从prev_rec中取出需要的字段
+            auto idx = sel_idxs_[i];
+            auto col = cols_[i];
+            auto prev_col = prev_cols[idx];
+            auto prev_val = prev_rec->data + prev_col.offset;
+            memcpy(rec->data + col.offset, prev_val, col.len);
+        }
+        return rec;
     }
 
     Rid &rid() override { return _abstract_rid; }
+
+    size_t tupleLen() const override { return len_; };
 };

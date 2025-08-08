@@ -227,7 +227,6 @@ struct SelectStmt : public TreeNode {
     bool has_sort;
     std::shared_ptr<OrderBy> order;
 
-
     SelectStmt(std::vector<std::shared_ptr<Col>> cols_,
                std::vector<std::string> tabs_,
                std::vector<std::shared_ptr<BinaryExpr>> conds_,

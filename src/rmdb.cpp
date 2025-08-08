@@ -28,6 +28,7 @@ See the Mulan PSL v2 for more details. */
 #define MAX_CONN_LIMIT 8
 
 static bool should_exit = false;
+int scan_record_cnt = 0;
 
 // 构建全局所需的管理器对象
 auto disk_manager = std::make_unique<DiskManager>();
@@ -82,7 +83,7 @@ void *client_handler(void *sock_fd) {
 
     std::string output = "establish client connection, sockfd: " + std::to_string(fd) + "\n";
     std::cout << output;
-
+    
     while (true) {
         std::cout << "Waiting for request..." << std::endl;
         memset(data_recv, 0, BUFFER_LENGTH);
@@ -99,7 +100,6 @@ void *client_handler(void *sock_fd) {
         }
         
         printf("i_recvBytes: %d \n ", i_recvBytes);
-
         if (strcmp(data_recv, "exit") == 0) {
             std::cout << "Client exit." << std::endl;
             break;
@@ -108,21 +108,21 @@ void *client_handler(void *sock_fd) {
             std::cout << "Server crash" << std::endl;
             exit(1);
         }
-
         std::cout << "Read from client " << fd << ": " << data_recv << std::endl;
-
         memset(data_send, '\0', BUFFER_LENGTH);
         offset = 0;
-
+        
         // 开启事务，初始化系统所需的上下文信息（包括事务对象指针、锁管理器指针、日志管理器指针、存放结果的buffer、记录结果长度的变量）
         Context *context = new Context(lock_manager.get(), log_manager.get(), nullptr, data_send, &offset);
         // SetTransaction(&txn_id, context);
 
         // 用于判断是否已经调用了yy_delete_buffer来删除buf
         bool finish_analyze = false;
+        
         pthread_mutex_lock(buffer_mutex);
         YY_BUFFER_STATE buf = yy_scan_string(data_recv);
         if (yyparse() == 0) {
+            
             if (ast::parse_tree != nullptr) {
                 try {
                     // analyze and rewrite
@@ -186,7 +186,7 @@ void *client_handler(void *sock_fd) {
 
     // Clear
     std::cout << "Terminating current client_connection..." << std::endl;
-    // std::cout << "scan_count: " << scan_count << std::endl;
+    std::cout << "scan_count: " << scan_record_cnt << std::endl;
     close(fd);           // close a file descriptor.
     pthread_exit(NULL);  // terminate calling thread!
 }

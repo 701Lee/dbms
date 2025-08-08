@@ -17,7 +17,7 @@ See the Mulan PSL v2 for more details. */
 #include "system/sm.h"
 
 // 扫描算子
-
+extern int scan_record_cnt;
 class SeqScanExecutor : public AbstractExecutor {
    private:
     std::string tab_name_;              // 表的名称
@@ -54,7 +54,7 @@ class SeqScanExecutor : public AbstractExecutor {
     size_t tupleLen() const override { return len_; };
 
     
-
+    /* 这个函数的功能还没有太完善 */
     bool isTupleMatched(std::unique_ptr<RmRecord> &record, const Condition &cond) {
         TabCol lhsCol = cond.lhs_col;
         ColMeta lhsColMeta = *get_col(cols_, lhsCol);
@@ -80,7 +80,7 @@ class SeqScanExecutor : public AbstractExecutor {
         for (scan_ = std::make_unique<RmScan>(fh_); !scan_->is_end(); scan_->next()) {
             // 检查当前记录是否满足条件 1.条件为空 2.满足fed_中的条件
             rid_ = scan_->rid();
-            
+            scan_record_cnt++;
             auto record = fh_->get_record(rid_, context_);
             if (fed_conds_.empty()) {
                 return ;
@@ -98,6 +98,7 @@ class SeqScanExecutor : public AbstractExecutor {
     void nextTuple() override {
         for (scan_->next(); !scan_->is_end(); scan_->next()) {
             rid_ = scan_->rid();
+            scan_record_cnt++;
             auto record = fh_->get_record(rid_, context_);
             if (fed_conds_.empty()) break;
             for (auto& cond : fed_conds_) {

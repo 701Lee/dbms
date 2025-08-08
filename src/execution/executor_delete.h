@@ -41,7 +41,6 @@ class DeleteExecutor : public AbstractExecutor {
 
     std::unique_ptr<RmRecord> Next() override {
         // 这里先只删除记录
-        std::cout << rids_.size() << std::endl;
         for (auto rid : rids_) {
             fh_->delete_record(rid, context_);
         }
