@@ -53,8 +53,10 @@ class SeqScanExecutor : public AbstractExecutor {
 
     size_t tupleLen() const override { return len_; };
 
+    std::string get_tableName() override{ return tab_name_ ;}
     
     /* 这个函数的功能还没有太完善 */
+    // 比较当前条件是否满足
     bool isTupleMatched(std::unique_ptr<RmRecord> &record, const Condition &cond) {
         TabCol lhsCol = cond.lhs_col;
         ColMeta lhsColMeta = *get_col(cols_, lhsCol);
