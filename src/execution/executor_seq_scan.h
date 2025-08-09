@@ -87,12 +87,15 @@ class SeqScanExecutor : public AbstractExecutor {
             if (fed_conds_.empty()) {
                 return ;
             }
+            bool flag = true;
             for (auto& cond : fed_conds_) {
                 // 对比当前记录和所有的条件
                 if (!isTupleMatched(record, cond)) {
-                    return ;
+                    flag = false;
+                    break ;
                 } 
             }
+            if (flag) break;
         }
         return ;
     }
@@ -103,12 +106,15 @@ class SeqScanExecutor : public AbstractExecutor {
             scan_record_cnt++;
             auto record = fh_->get_record(rid_, context_);
             if (fed_conds_.empty()) break;
+            bool flag = true;
             for (auto& cond : fed_conds_) {
                 // 对比当前记录和所有的条件
-                if (isTupleMatched(record, cond)) {
-                    return ;
+                if (!isTupleMatched(record, cond)) {
+                    flag = false;
+                    break ;
                 } 
             }
+            if (flag) break;
         }
         return ;
     }
