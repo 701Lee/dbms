@@ -89,7 +89,7 @@ class SeqScanExecutor : public AbstractExecutor {
             }
             for (auto& cond : fed_conds_) {
                 // 对比当前记录和所有的条件
-                if (isTupleMatched(record, cond)) {
+                if (!isTupleMatched(record, cond)) {
                     return ;
                 } 
             }
